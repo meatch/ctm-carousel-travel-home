@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>WF Carousel</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./vendor/bootstrap/bootstrap.min.css">
 		<link rel="stylesheet" href="./Mobile/css/styles.css">
 		<link rel="stylesheet" href="./Medium-Large/css/styles.css">
@@ -13,6 +14,8 @@
 				margin: auto;
 				padding: 25px;
 				background-color: #eee;
+
+				overflow: hidden;
 			}
 			@media only screen and (min-width : 768px) {
 				.wrapper { width: 768px; }

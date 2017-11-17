@@ -56,7 +56,6 @@ $('document').ready(function() {
 			// Update dims
 			deck.css({'width': deckWidth});
 			cards.css({'width': cardWidth});
-
 		}
 		set_deckCard_width();
 		$(window).resize(set_deckCard_width);

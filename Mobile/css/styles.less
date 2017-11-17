@@ -39,30 +39,20 @@
 			position: absolute;
 			left: 0px; top: 0px;
 
-			// transform-style: preserve-3d;
-		}
-
-		.card-slide-off {
-			transition: .5s all;
-			z-index: 4;
-			// transform: scale(1);
-			left: 800px;
-			opacity: 0;
-
-			transform: perspective(500px) translateZ(0px) rotate(10deg);
-		}
-
-		.card1 {
 			transition: .4s all;
+		}
+		/*-------------------------------------
+		| The lower the card number, the closer to the viewer. inverse of our DOM array
+		-------------------------------------*/
+		.card1 {
 			transform: perspective(500px) translateZ(0px);
 			z-index: 3;
 			top: 50px;
 		}
 		.card2 {
-			transition: .4s all;
 			z-index: 2;
 			transform: perspective(500px) translateZ(-50px);
-			top: 25px;
+			top: 23px;
 		}
 		.card3 {
 			transition: .4s opacity;
@@ -70,28 +60,37 @@
 			transform: perspective(500px) translateZ(-100px);
 			top: 0px;
 		}
+		.card-slide-off {
+			transition: .5s all;
+			z-index: 4;
+			left: 800px;
+			opacity: 0;
+
+			transform: perspective(500px) translateZ(0px) rotate(10deg);
+		}
 	}
 
 	.controls {
 		text-align: center;
-		margin: 50px 0 15px;
+		margin: 40px 0 15px;
 
 		& > div { display: inline-block; }
 
-		.sets {
-			.set {
+		.circles {
+			.circle {
 				cursor: pointer;
 				display: inline-block;
 
-				width: 25px;
-				height: 29px;
+				width: 40px;
+				height: 40px;
 
+				outline: solid 1px red;
 
-				.circle {
+				span {
 					display: block;
 				    margin: auto;
 				    position: relative;
-				    top: 10px;
+				    top: 15px;
 					// Sr-only
 				    font-size: 0;
 
@@ -103,12 +102,12 @@
 					background-color: #ccc;
 				}
 				&.current {
-					.circle {
+					span {
 						background-color: #666;
 					}
 				}
 				&:hover {
-					.circle {
+					span {
 						background-color: #000;
 					}
 				}

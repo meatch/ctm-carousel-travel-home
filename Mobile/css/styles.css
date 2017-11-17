@@ -23,6 +23,9 @@
   width: 300px;
   height: 340px;
   position: relative;
+  /*-------------------------------------
+		| The lower the card number, the closer to the viewer. inverse of our DOM array
+		-------------------------------------*/
 }
 .wf-carousel-mobile .deck .card {
   background-color: white;
@@ -33,6 +36,23 @@
   position: absolute;
   left: 0px;
   top: 0px;
+  transition: .4s all;
+}
+.wf-carousel-mobile .deck .card1 {
+  transform: perspective(500px) translateZ(0px);
+  z-index: 3;
+  top: 50px;
+}
+.wf-carousel-mobile .deck .card2 {
+  z-index: 2;
+  transform: perspective(500px) translateZ(-50px);
+  top: 23px;
+}
+.wf-carousel-mobile .deck .card3 {
+  transition: .4s opacity;
+  z-index: 1;
+  transform: perspective(500px) translateZ(-100px);
+  top: 0px;
 }
 .wf-carousel-mobile .deck .card-slide-off {
   transition: .5s all;
@@ -41,52 +61,35 @@
   opacity: 0;
   transform: perspective(500px) translateZ(0px) rotate(10deg);
 }
-.wf-carousel-mobile .deck .card1 {
-  transition: .4s all;
-  transform: perspective(500px) translateZ(0px);
-  z-index: 3;
-  top: 50px;
-}
-.wf-carousel-mobile .deck .card2 {
-  transition: .4s all;
-  z-index: 2;
-  transform: perspective(500px) translateZ(-50px);
-  top: 25px;
-}
-.wf-carousel-mobile .deck .card3 {
-  transition: .4s opacity;
-  z-index: 1;
-  transform: perspective(500px) translateZ(-100px);
-  top: 0px;
-}
 .wf-carousel-mobile .controls {
   text-align: center;
-  margin: 50px 0 15px;
+  margin: 40px 0 15px;
 }
 .wf-carousel-mobile .controls > div {
   display: inline-block;
 }
-.wf-carousel-mobile .controls .sets .set {
+.wf-carousel-mobile .controls .circles .circle {
   cursor: pointer;
   display: inline-block;
-  width: 25px;
-  height: 29px;
+  width: 40px;
+  height: 40px;
+  outline: solid 1px red;
 }
-.wf-carousel-mobile .controls .sets .set .circle {
+.wf-carousel-mobile .controls .circles .circle span {
   display: block;
   margin: auto;
   position: relative;
-  top: 10px;
+  top: 15px;
   font-size: 0;
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background-color: #ccc;
 }
-.wf-carousel-mobile .controls .sets .set.current .circle {
+.wf-carousel-mobile .controls .circles .circle.current span {
   background-color: #666;
 }
-.wf-carousel-mobile .controls .sets .set:hover .circle {
+.wf-carousel-mobile .controls .circles .circle:hover span {
   background-color: #000;
 }
 .wf-carousel-mobile .controls .sets .set.current .circle {
