@@ -1,0 +1,189 @@
+// out: ./styles.css, sourcemap: true, compress: false
+/*
+	@author: Mitch Gohman
+	@date Tue 07 Nov 2017 08:40:39 AM PST
+	Responsive Carousel Slider - Creating new stand alone slider app that can be used/modded elsewhere
+
+	@TODO: use global breakpoints, currently all over the map
+*/
+
+/*Clearfix: Damn you floats.*/
+.deck:before,.deck:after { content: " "; display: table; }
+.deck:after { clear: both; }
+.deck { *zoom: 1; }
+
+.wf-carousel {
+	/*Default Mobile Styles plus medium and large*/
+	overflow: hidden;
+	width: 100%;
+
+	.deck {
+		box-sizing: border-box;
+		position: relative;
+		left: 0px;
+		/*Width is determined by number of cards by javascript*/
+
+		.card {
+			box-sizing: border-box;
+			float: left;
+			padding: 0px 15px;
+		}
+		// .card:first-child { padding-left: 0; }
+		// .card:last-child { padding-right: 0; }
+	}
+
+	// Handle Padding issues  - wish we could use flexbox, this would be much easier.
+	&.wf-carousel-set-1 .deck {
+		.card:nth-of-type(1n+1) { padding-left: 0; }
+		.card:nth-of-type(1n+1) { padding-right: 0; }
+	}
+	&.wf-carousel-set-2 .deck {
+		.card:nth-of-type(2n+1) { padding-left: 0; }
+		.card:nth-of-type(2n+2) { padding-right: 0; }
+	}
+	&.wf-carousel-set-3 .deck {
+		// Had to do this for division by 3 not being even
+		.card:nth-of-type(3n+1) { padding-left: 1px; }
+		.card:nth-of-type(3n+3) { padding-right: 0; }
+	}
+	&.wf-carousel-set-4 .deck {
+		.card:nth-of-type(4n+1) { padding-left: 0; }
+		.card:nth-of-type(4n+4) { padding-right: 0; }
+	}
+
+
+	.controls {
+		text-align: center;
+		margin: 15px 0px;
+
+		& > div { display: inline-block; }
+
+		.left, .right {
+			/*sr-only*/
+			font-size: 0;
+			background-image: url('../img/arrows.png');
+			width: 16px;
+			height: 29px;
+			cursor: pointer;
+		}
+		.left {
+			margin-right: 15px;
+			background-position: 0 0;
+		}
+		.right {
+			margin-left: 15px;
+			background-position: 0 -29px;
+		}
+
+		.sets {
+			.set {
+				cursor: pointer;
+				display: inline-block;
+
+				width: 25px;
+				height: 29px;
+
+
+				.circle {
+					display: block;
+				    margin: auto;
+				    position: relative;
+				    top: 10px;
+					// Sr-only
+				    font-size: 0;
+
+					// making circles
+				    width: 10px;
+				    height: 10px;
+				    border-radius: 50%;
+
+					background-color: #ccc;
+				}
+				&.current {
+					.circle {
+						background-color: #666;
+					}
+				}
+				&:hover {
+					.circle {
+						background-color: #000;
+					}
+				}
+			}
+		}
+	}
+}
+
+
+/* Page Specific */
+.wf-special-offer-learnmore-carousel-container {
+	.controls .sets .set {
+		&.current {
+			.circle { background-color: maroon; }
+		}
+		&:hover {
+			.circle { background-color: darkred; }
+		}
+	}
+	.content {
+		box-sizing: border-box;
+		height: 309px;
+		padding: 15px;
+		border-radius: 3px;
+		border: solid 1px #333;
+
+		text-align: center;
+
+		position: relative;
+
+		.image {
+			height: 138px;
+			background-size: cover;
+			background-position: center center;
+			margin-bottom: 15px;
+		}
+		h1 {
+			margin: 0px;
+			font-size: 20px;
+			font-weight: 400;
+			font-family: Helvetica, sans-serif;
+
+			padding: 0 10px;
+		}
+		h2 {
+			margin: 0px;
+			font-size: 14px;
+			font-weight: normal;
+			font-family: Helvetica, sans-serif;
+
+			margin-bottom: 50px;
+		}
+		a.button {
+			display: block;
+			position: absolute;
+			bottom: 15px;
+
+			position: absolute;
+			left: 50%; bottom: 15px;
+			transform: translate(-50%, 0);
+
+			width: 67%;
+			margin: auto;
+			padding: 7px;
+			border: solid 2px navy;
+			border-radius: 3px;
+
+			background-color: transparent;
+
+			font-size: 20px;
+			text-align: center;
+			color: navy;
+
+			text-decoration: none;
+
+			&:hover, &:active {
+				text-decoration: none;
+			}
+		}
+	}
+}

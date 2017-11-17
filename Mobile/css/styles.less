@@ -1,0 +1,189 @@
+// out: ./styles.css, sourcemap: true, compress: false
+/*
+	@author: Mitch Gohman
+	@date Tue 07 Nov 2017 08:40:39 AM PST
+	Responsive Carousel Slider - Creating new stand alone slider app that can be used/modded elsewhere
+*/
+
+#mobile {
+	width: 375px;
+	height: 647px;
+	// overflow: scroll;
+	margin: auto;
+	outline: solid 1px black;
+	margin-bottom: 50px;
+}
+
+.wf-carousel-mobile{
+	/*Default Mobile Styles plus medium and large*/
+	width: 100%;
+
+	.deck {
+		box-sizing: border-box;
+
+		margin: 25px auto 0;
+		// border: solid 5px teal;
+
+		width: 300px;
+		height: 340px;
+
+		position: relative;
+
+		.card {
+			background-color: white;
+			width: 300px;
+			height: 340px;
+			box-sizing: border-box;
+			box-shadow: 0 0 6px 0px rgba(0, 0, 0, 0.14);
+
+			position: absolute;
+			left: 0px; top: 0px;
+
+			// transform-style: preserve-3d;
+		}
+
+		.card-slide-off {
+			transition: .5s all;
+			z-index: 4;
+			// transform: scale(1);
+			left: 800px;
+			opacity: 0;
+
+			transform: perspective(500px) translateZ(0px) rotate(10deg);
+		}
+
+		.card1 {
+			transition: .4s all;
+			transform: perspective(500px) translateZ(0px);
+			z-index: 3;
+			top: 50px;
+		}
+		.card2 {
+			transition: .4s all;
+			z-index: 2;
+			transform: perspective(500px) translateZ(-50px);
+			top: 25px;
+		}
+		.card3 {
+			transition: .4s opacity;
+			z-index: 1;
+			transform: perspective(500px) translateZ(-100px);
+			top: 0px;
+		}
+	}
+
+	.controls {
+		text-align: center;
+		margin: 50px 0 15px;
+
+		& > div { display: inline-block; }
+
+		.sets {
+			.set {
+				cursor: pointer;
+				display: inline-block;
+
+				width: 25px;
+				height: 29px;
+
+
+				.circle {
+					display: block;
+				    margin: auto;
+				    position: relative;
+				    top: 10px;
+					// Sr-only
+				    font-size: 0;
+
+					// making circles
+				    width: 10px;
+				    height: 10px;
+				    border-radius: 50%;
+
+					background-color: #ccc;
+				}
+				&.current {
+					.circle {
+						background-color: #666;
+					}
+				}
+				&:hover {
+					.circle {
+						background-color: #000;
+					}
+				}
+			}
+		}
+	}
+
+
+	/*-------------------------------------
+	| Page Specific
+	-------------------------------------*/
+	.controls .sets .set {
+		&.current {
+			.circle { background-color: maroon; }
+		}
+		&:hover {
+			.circle { background-color: darkred; }
+		}
+	}
+	.content {
+		box-sizing: border-box;
+		height: 340px;
+		padding: 15px;
+
+		text-align: center;
+
+		position: relative;
+
+		.image {
+			height: 138px;
+			background-size: cover;
+			background-position: center center;
+			margin-bottom: 15px;
+		}
+		h1 {
+			margin: 0px;
+			font-size: 20px;
+			font-weight: 400;
+			font-family: Helvetica, sans-serif;
+
+			padding: 0 10px;
+		}
+		h2 {
+			margin: 0px;
+			font-size: 14px;
+			font-weight: normal;
+			font-family: Helvetica, sans-serif;
+
+			margin-bottom: 50px;
+		}
+		a.button {
+			display: block;
+			position: absolute;
+
+			position: absolute;
+			left: 50%; bottom: 20px;
+			transform: translate(-50%, 0);
+
+			width: 67%;
+			margin: auto;
+			padding: 7px;
+			border: solid 2px navy;
+			border-radius: 3px;
+
+			background-color: transparent;
+
+			font-size: 20px;
+			text-align: center;
+			color: navy;
+
+			text-decoration: none;
+
+			&:hover, &:active {
+				text-decoration: none;
+			}
+		}
+	}
+}
