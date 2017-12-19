@@ -1,0 +1,281 @@
+body {
+  background-color: #333;
+}
+body #wrapper {
+  width: 320px;
+  margin: auto;
+  background-color: white;
+  padding: 25px;
+  min-height: 10000px;
+}
+@media (min-width: 768px) {
+  body #wrapper {
+    width: 1014px;
+  }
+}
+body #wrapper h1 {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 50px;
+}
+@media (min-width: 768px) {
+  body #wrapper h1 {
+    font-size: 30px;
+  }
+}
+/*
+	@author: Mitch Gohman
+	@date Tue 07 Nov 2017 08:40:39 AM PST
+	Responsive Carousel Slider - Creating new stand alone slider app that can be used/modded elsewhere
+
+	@TODO: use global breakpoints, currently all over the map
+*/
+/*---------------------------
+| Carousel Shared Styles
+---------------------------*/
+.cards-carousel {
+  width: 100%;
+  position: relative;
+}
+.cards-carousel .deck:before,
+.cards-carousel .deck:after {
+  content: " ";
+  display: table;
+}
+.cards-carousel .deck:after {
+  clear: both;
+}
+.cards-carousel .deck {
+  *zoom: 1;
+}
+.cards-carousel .card {
+  box-sizing: border-box;
+}
+.cards-carousel .card .content {
+  background-color: white;
+  box-sizing: border-box;
+  padding: 15px;
+  box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.3);
+  border: solid 1px blue;
+  position: relative;
+  height: 290px;
+}
+.cards-carousel .the-controls {
+  text-align: center;
+}
+.cards-carousel .the-controls > div {
+  display: inline-block;
+}
+.cards-carousel .the-controls .left,
+.cards-carousel .the-controls .right {
+  /*sr-only*/
+  font-size: 0;
+  background-image: url('../img/arrows.png');
+  width: 16px;
+  height: 29px;
+  cursor: pointer;
+  position: relative;
+  top: 22px;
+}
+.cards-carousel .the-controls .left {
+  margin-right: 15px;
+  background-position: 0 0;
+}
+.cards-carousel .the-controls .right {
+  margin-left: 15px;
+  background-position: 0 -29px;
+}
+.cards-carousel .the-controls .circles .circle {
+  cursor: pointer;
+  display: inline-block;
+  width: 30px;
+  height: 40px;
+}
+.cards-carousel .the-controls .circles .circle span {
+  display: block;
+  margin: auto;
+  position: relative;
+  top: 15px;
+  font-size: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ccc;
+}
+.cards-carousel .the-controls .circles .circle.current span {
+  background-color: #bc0121;
+}
+.cards-carousel .the-controls .circles .circle:hover span {
+  background-color: #000;
+}
+/*---------------------------
+| Mobile Specific
+---------------------------*/
+.cards-carousel.mobile {
+  overflow: hidden;
+}
+.cards-carousel.mobile .inner {
+  width: 100%;
+  margin: auto;
+  position: relative;
+}
+.cards-carousel.mobile .inner .deck {
+  box-sizing: border-box;
+  margin: -15px auto 0;
+  width: 256px;
+  height: 355px;
+  position: relative;
+  /*-------------------------------------
+			| The lower the card number, the closer to the viewer. inverse of our DOM array
+			-------------------------------------*/
+}
+.cards-carousel.mobile .inner .deck .card {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transition: .4s all;
+  width: 256px;
+  max-height: 290px;
+}
+.cards-carousel.mobile .inner .deck .card1 {
+  transform: perspective(500px) translateZ(0px);
+  z-index: 3;
+  top: 60px;
+}
+.cards-carousel.mobile .inner .deck .card2 {
+  background-color: #fbfafa;
+  z-index: 2;
+  transform: perspective(500px) translateZ(-50px);
+  top: 30px;
+}
+.cards-carousel.mobile .inner .deck .card3 {
+  background-color: #fbfafa;
+  transition: .4s opacity;
+  z-index: 1;
+  transform: perspective(500px) translateZ(-100px);
+  top: 5px;
+}
+.cards-carousel.mobile .inner .deck .card-slide-off {
+  transition: .5s all;
+  z-index: 4;
+  left: 800px;
+  opacity: 0;
+  transform: perspective(500px) translateZ(0px) rotate(10deg);
+}
+.cards-carousel.mobile .inner .content a.button {
+  width: 270px;
+  max-width: calc(100% - 30px);
+}
+/*---------------------------
+| Medium Large Specific
+---------------------------*/
+.cards-carousel.mediumLarge {
+  width: 964px;
+}
+.cards-carousel.mediumLarge .the-carousel {
+  overflow: hidden;
+  position: relative;
+  width: 964px;
+  height: 325px;
+  outline: solid 5px teal;
+}
+.cards-carousel.mediumLarge .the-carousel .set {
+  outline: solid 1px green;
+  width: 964px;
+  height: 325px;
+  position: absolute;
+  top: 0;
+}
+.cards-carousel.mediumLarge .the-carousel .set .card {
+  float: left;
+  width: 300px;
+  margin-right: 31px;
+}
+.cards-carousel.mediumLarge .the-carousel .set .card:last-child {
+  margin-right: 0px;
+}
+.cards-carousel.mediumLarge .the-carousel .set1 {
+  left: 0;
+}
+.cards-carousel.mediumLarge .the-carousel .set2,
+.cards-carousel.mediumLarge .the-carousel .set3 {
+  left: 964px;
+}
+.cards-carousel.mediumLarge .the-controls {
+  margin: 15px 0 0;
+}
+/*===================================
+||
+|| Wells Fargo Travel Home (WFTH) Instance Sepecific
+||
+===================================*/
+/* All breakpoints */
+.wfthCarousel .content {
+  box-sizing: border-box;
+  height: 340px;
+  padding: 15px;
+  text-align: center;
+  position: relative;
+}
+.wfthCarousel .content .image {
+  background-size: cover;
+  background-position: center center;
+  margin-bottom: 15px;
+  height: 116px;
+}
+.wfthCarousel .content h1 {
+  margin: 0px;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: Verdana, Geneva, sans-serif;
+  line-height: 100%;
+  color: #333;
+  padding: 0 10px;
+}
+.wfthCarousel .content h2 {
+  margin: 0px;
+  font-size: 12px;
+  font-weight: normal;
+  font-family: Verdana, Geneva, sans-serif;
+  line-height: 100%;
+  margin-bottom: 50px;
+}
+.wfthCarousel .content a.button {
+  position: absolute;
+  white-space: nowrap;
+  left: 50%;
+  bottom: 15px;
+  transform: translate(-50%, 0);
+  width: 185px;
+}
+.wfthCarousel .content a.button:hover,
+.wfthCarousel .content a.button:active {
+  text-decoration: none;
+}
+.wfthCarousel .see-all-mobile {
+  text-decoration: none;
+  font-size: 14px;
+  position: relative;
+  top: 15px;
+  left: 75px;
+}
+/* Mobile Carousel */
+@media (min-width: 768px) {
+  #wfthCarouselMobile {
+    display: none;
+  }
+}
+/* Medium and Large */
+@media (max-width: 767px) {
+  #wfthCarouselMediumLarge {
+    display: none;
+  }
+}
+#wfthCarouselMediumLarge .see-all {
+  text-decoration: none;
+  font-size: 14px;
+  position: absolute;
+  font-size: 12px;
+  right: 1px;
+  bottom: 16px;
+}

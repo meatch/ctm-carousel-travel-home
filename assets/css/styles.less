@@ -1,0 +1,326 @@
+// out: ./styles.css, sourcemap: true, compress: false
+body {
+	background-color: #333;
+	#wrapper {
+		width: 320px;
+		margin: auto;
+		background-color: white;
+		padding: 25px;
+
+		min-height: 10000px;
+
+		@media (min-width: @screen-sm) {
+			width: 1014px;
+		}
+
+		h1 {
+			text-align: center;
+			font-size: 18px;
+			margin-bottom: 50px;
+			@media (min-width: @screen-sm) {
+				font-size: 30px;
+			}
+		}
+	}
+
+}
+
+/*
+	@author: Mitch Gohman
+	@date Tue 07 Nov 2017 08:40:39 AM PST
+	Responsive Carousel Slider - Creating new stand alone slider app that can be used/modded elsewhere
+
+	@TODO: use global breakpoints, currently all over the map
+*/
+
+@sectionBorderColor: blue;
+@screen-sm: 768px;
+@screen-xs-max: 767px;
+/*---------------------------
+| Carousel Shared Styles
+---------------------------*/
+.cards-carousel {
+	width: 100%;
+	position: relative;
+
+	// Float Clearfix
+	.deck:before,.deck:after { content: " "; display: table; }
+	.deck:after { clear: both; }
+	.deck { *zoom: 1; }
+
+	// cards
+	.card {
+		box-sizing: border-box;
+		.content {
+			background-color: white;
+			box-sizing: border-box;
+			padding: 15px;
+			box-shadow: 0px 2px 7px rgba(0,0,0,.3);
+			border: solid 1px @sectionBorderColor;
+			position: relative;
+			height: 290px;
+		}
+	}
+
+	// controls, left, right arrows and circles.
+	.the-controls {
+		text-align: center;
+
+		& > div { display: inline-block; }
+
+		.left, .right {
+			/*sr-only*/
+			font-size: 0;
+			// background-image: url('/img/carets/pagination_sliderArrowsLrg.png');
+			background-image: url('../img/arrows.png');
+			width: 16px;
+			height: 29px;
+			cursor: pointer;
+
+			position: relative;
+			top: 22px;
+
+		}
+		.left {
+			margin-right: 15px;
+			background-position: 0 0;
+		}
+		.right {
+			margin-left: 15px;
+			background-position: 0 -29px;
+		}
+
+		.circles {
+			.circle {
+				cursor: pointer;
+				display: inline-block;
+				width: 30px;
+				height: 40px;
+
+				span {
+					display: block;
+				    margin: auto;
+				    position: relative;
+				    top: 15px;
+					// Sr-only
+				    font-size: 0;
+
+					// making circles
+				    width: 10px;
+				    height: 10px;
+				    border-radius: 50%;
+
+					background-color: #ccc;
+				}
+				&.current {
+					span {
+						background-color: #bc0121;
+					}
+				}
+				&:hover {
+					span {
+						background-color: #000;
+					}
+				}
+			}
+		}
+	}
+}
+/*---------------------------
+| Mobile Specific
+---------------------------*/
+.cards-carousel.mobile {
+	overflow: hidden;
+	.inner {
+		width: 100%;
+		margin: auto;
+		position: relative;
+
+		.deck {
+			box-sizing: border-box;
+			position: relative;
+			margin: -15px auto 0;
+			width: 256px;
+			height: 355px;
+
+			position: relative;
+
+			.card {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				transition: .4s all;
+				width: 256px;
+				max-height: 290px;
+			}
+			/*-------------------------------------
+			| The lower the card number, the closer to the viewer. inverse of our DOM array
+			-------------------------------------*/
+			.card1 {
+				transform: perspective(500px) translateZ(0px);
+				z-index: 3;
+				top: 60px;
+			}
+			.card2 {
+				background-color: #fbfafa;
+				z-index: 2;
+				transform: perspective(500px) translateZ(-50px);
+				top: 30px;
+			}
+			.card3 {
+				background-color: #fbfafa;
+				transition: .4s opacity;
+				z-index: 1;
+				transform: perspective(500px) translateZ(-100px);
+				top: 5px;
+			}
+			.card-slide-off {
+				transition: .5s all;
+				z-index: 4;
+				left: 800px;
+				opacity: 0;
+
+				transform: perspective(500px) translateZ(0px) rotate(10deg);
+			}
+		}
+		.content {
+			a.button {
+				width: 270px;
+				max-width: ~"calc(100% - 30px)";
+			}
+		}
+	}
+}
+
+/*---------------------------
+| Medium Large Specific
+---------------------------*/
+.cards-carousel.mediumLarge {
+	// fade it up to give the illusion of faster load -hide the building of these assets
+	// opacity: 0;
+	// &.reveal {
+	// 	transition: 1.5s;
+	// 	opacity: 1;
+	// }
+	// float: left;
+
+	width: 964px;
+	.the-carousel {
+		overflow: hidden;
+		position: relative;
+		width: 964px;
+		height: 325px; //hold space for absolute child deck
+		outline: solid 5px teal;
+		// This is the container that holds all sets and cards
+
+
+		// 3 sets, each as wide as the carousel
+		// this determines how far iot travels each rotation
+		// Must also chanegf or medium view
+		.set {
+			outline: solid 1px green;
+			width: 964px;
+			height: 325px;
+			// float: left;
+
+			position: absolute; top: 0;
+			.card {
+				// outline: solid 3px blue;
+				float: left;
+				width: 300px;
+				margin-right: 31px;
+			}
+			.card:last-child {
+				margin-right: 0px;
+			}
+		}
+		.set1 { left: 0; }
+		.set2, .set3 { left: 964px; }
+	}
+	.the-controls {
+		margin: 15px 0 0;
+	}
+}
+
+/*===================================
+||
+|| Wells Fargo Travel Home (WFTH) Instance Sepecific
+||
+===================================*/
+
+/* All breakpoints */
+.wfthCarousel {
+	.content {
+		box-sizing: border-box;
+		height: 340px;
+		padding: 15px;
+
+		text-align: center;
+
+		position: relative;
+
+		.image {
+			background-size: cover;
+			background-position: center center;
+			margin-bottom: 15px;
+			height:116px;
+		}
+		h1 {
+			margin: 0px;
+			font-size: 18px;
+			font-weight: 400;
+			font-family: Verdana, Geneva, sans-serif;
+			line-height: 100%;
+			color: #333;
+
+			padding: 0 10px;
+		}
+		h2 {
+			margin: 0px;
+			font-size: 12px;
+			font-weight: normal;
+			font-family: Verdana, Geneva, sans-serif;
+			line-height: 100%;
+
+			margin-bottom: 50px;
+		}
+		a.button {
+			position: absolute;
+			white-space: nowrap;
+			left: 50%; bottom: 15px;
+			transform: translate(-50%, 0);
+			width: 185px;
+
+			&:hover, &:active {
+				text-decoration: none;
+			}
+		}
+	}
+	.see-all-mobile {
+	    text-decoration: none;
+	    font-size: 14px;
+	    position: relative;
+	    top: 15px;
+	    left: 75px;
+	}
+}
+
+/* Mobile Carousel */
+#wfthCarouselMobile {
+	@media (min-width: @screen-sm) { display: none; }
+}
+
+/* Medium and Large */
+#wfthCarouselMediumLarge {
+	@media (max-width: @screen-xs-max) { display: none; }
+	.see-all {
+		text-decoration: none;
+	    font-size: 14px;
+		position: absolute;
+	    font-size: 12px;
+	    right: 1px;
+		bottom: 16px;
+	}
+
+}
+
