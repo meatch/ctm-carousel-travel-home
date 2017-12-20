@@ -10,10 +10,14 @@ function cards_carousel_mediumLarge() {
     /*---------------------------
 	| Initialize Some Stuff
 	---------------------------*/
-    var carousel = $(".cards-carousel.mediumLarge");
-    var sets = carousel.find(".set");
-    var cards = carousel.find(".card");
-    var controls = carousel.find(".the-controls");
+    var container = $(".tcc-container.mediumLarge");
+
+    var carousel = container.find(".tcc-carousel");
+    var sets = carousel.find(".tcc-set");
+    var cards = carousel.find(".tcc-card");
+
+    var controls = container.find(".tcc-controls");
+
     var distAnimate = carousel.width();
     var transSpeed = 750;
     var numSets = 3; //tells how many sets to cycle through
@@ -26,28 +30,38 @@ function cards_carousel_mediumLarge() {
 	|| Navigating
 	||
 	-------------------------------------*/
+    $(window).resize(function(){
+        distAnimate = carousel.width();
+        // move them off stage if view has changed from medium to large or vice versa
+        sets.not(':eq('+currSet+')').css({'left':distAnimate});
+    });
 
     function slideToSet() {
+        // console.log(['before',isSliding]);
         if (!isSliding)
         {
             isSliding = true;
+            // console.log(['during',isSliding]);
             var setWidth = carousel.width();
 
             // manage selected bullets
             // var bullets = controls.find('.circles .circle');
-            controls.find(".circles .circle").removeClass("current"); //blanket removal
-            controls.find(".circles .circle:eq("+nextSet+")").addClass("current"); //blanket removal
+            controls.find(".tcc-circles .tcc-circle").removeClass("theChosenOne"); //blanket removal
+            controls.find(".tcc-circles .tcc-circle:eq("+nextSet+")").addClass("theChosenOne"); //blanket removal
 
             // animate the sets
 
             var theCurrSet = $(sets[currSet]);
             var theNextSlide = $(sets[nextSet]);
 
-            theNextSlide.animate({"left": 0}, transSpeed);
-            theCurrSet.animate({"left": (distAnimate * -1)}, transSpeed, function(){
+            var el1 = theNextSlide.animate({"left": 0}, transSpeed);
+            var el2 = theCurrSet.animate({"left": (distAnimate * -1)}, transSpeed);
+
+            $.when(el1,el2).done(function(){
                 theCurrSet.css({"left": distAnimate});
                 isSliding = false;
                 currSet = nextSet;
+                // console.log(['done',isSliding]);
             });
         }
     }
@@ -56,15 +70,18 @@ function cards_carousel_mediumLarge() {
 	| Arrow Right
 	-------------------------------------*/
     function moveRight() {
-        console.log([currSet, nextSet]);
-        nextSet = currSet + 1;
-        // handle carousel, roundtrip
-        if (nextSet === numSets) { nextSet = 0; }
+        if (!isSliding)
+        {
+            console.log([currSet, nextSet]);
+            nextSet = currSet + 1;
+            // handle carousel, roundtrip
+            if (nextSet === numSets) { nextSet = 0; }
 
-        slideToSet();
+            slideToSet();
+        }
     }
 
-    controls.find(".right").on("click", moveRight);
+    controls.find(".tcc-right").on("click", moveRight);
     carousel.on("swiperight", function() {
         moveRight();
     });
@@ -73,31 +90,38 @@ function cards_carousel_mediumLarge() {
 	| Arrow Left
 	-------------------------------------*/
     function moveleft() {
-        nextSet = currSet - 1;
-        // handle carousel, roundtrip
-        if (nextSet < 0) { nextSet = (numSets-1); }
+        if (!isSliding)
+        {
+            nextSet = currSet - 1;
+            // handle carousel, roundtrip
+            if (nextSet < 0) { nextSet = (numSets-1); }
 
-        slideToSet();
+            slideToSet();
+        }
     }
-    controls.find(".left").on("click", moveleft);
+    controls.find(".tcc-left").on("click", moveleft);
 
     /*-------------------------------------
 	| Bullet Click
 	-------------------------------------*/
-    controls.find(".circles .circle").on("click", function(){
-        nextSet = controls.find(".circles .circle").index(this);
-        slideToSet();
+    controls.find(".tcc-circles .tcc-circle").on("click", function(){
+        if (!isSliding)
+        {
+            nextSet = controls.find(".tcc-circles .tcc-circle").index(this);
+            slideToSet();
+        }
     });
 
-    /*---------------------------
-    | Kill defaults for all links.
-    ---------------------------*/
-    cards.on('click', 'button', function(e){
-        console.log('ouchy');
+    /*-------------------------------------
+    | Kill modal propagation and close
+    | @FIX1: this may help stop it from propogating up, and triggering something else in our layout
+    -------------------------------------*/
+    $('#special_offer_modal').on('click', 'button.close', function(e){
+        console.log('modal');
         e.preventDefault();
-        // e.stopPropagation();
+        e.stopPropagation();
+        $('#special_offer_modal').modal('hide');
     });
-
 }
 cards_carousel_mediumLarge();
 
@@ -105,44 +129,24 @@ cards_carousel_mediumLarge();
 | Mobile Carousel
 ---------------------------*/
 function cards_carousel_mobile() {
-    var carousel = $(".cards-carousel.mobile");
-    var deck = carousel.find(".deck");
-    var cards = carousel.find(".card");
-    var controls = carousel.find(".the-controls");
+    var container = $(".tcc-container.mobile");
+    var carousel = container.find(".tcc-carousel");
+    var cards = container.find(".tcc-card");
+    var controls = container.find(".tcc-controls");
 
-    var rotate_deck_duration = 350; //how long it takes to complete a cycle in deck rotation
+    var rotate_deck_duration = 350; //how long it takes to complete a cycle in carousel rotation
 
     var transSpeed = 1000;
-
 
     /*---------------------------
 	| Trigger Carsousel
 	---------------------------*/
-    deck.on("click", function(e){
+    carousel.on("click", function(e){
         if (!$(e.target).hasClass("button"))
         {
             rotate_deck(1);
         }
     });
-
-    /*-------------------------------------
-	| Create circles based on sets
-	-------------------------------------*/
-    function generate_bullet_nav() {
-        var circlesContainer = controls.find(".circles");
-
-        circlesContainer.html(" "); //empty defaults
-        cards.each(function(i) {
-            var humNum = i + 1;
-
-            var thisEl = (i === 0) ?
-                $("<div class=\"circle card"+humNum+" current\"><span>Card "+humNum+"</span></div>") :
-                $("<div class=\"circle card"+humNum+"\"><span>Card "+humNum+"</span></div>");
-            thisEl.appendTo(circlesContainer);
-        });
-
-    }
-    generate_bullet_nav();
 
     /*-------------------------------------
 	| Rotate Deck
@@ -162,25 +166,25 @@ function cards_carousel_mobile() {
 
     function rotate_deck_once() {
         /* The higher the number, the closer to the viewer, inverse of dom array -------------------------------*/
-        var card1 = deck.find(".card:eq(0)");
-        var card2 = deck.find(".card:eq(1)");
-        var card3 = deck.find(".card:eq(2)");
+        var card1 = carousel.find(".tcc-card1");
+        var card2 = carousel.find(".tcc-card2");
+        var card3 = carousel.find(".tcc-card3");
 
         // animate off...
         card1.addClass("card-slide-off");
 
         // remove all card1, 2, and 3 classes
-        cards.removeClass("card1 card2 card3"); //blanket removal
+        cards.removeClass("tcc-card1 tcc-card2 tcc-card3"); //blanket removal
         // move the other cards forward in line
-        card2.addClass("card1");
-        card3.addClass("card2");
+        card2.addClass("tcc-card1");
+        card3.addClass("tcc-card2");
 
         // ...and then place in the back of the line
         setTimeout(function() {
             card1
                 .removeClass("card-slide-off")
-                .addClass("card3")
-                .appendTo(deck);
+                .addClass("tcc-card3")
+                .appendTo(carousel);
         }, 300);
 
 
@@ -193,23 +197,21 @@ function cards_carousel_mobile() {
 	| Update Bullet Nav Current Selection
 	-------------------------------------*/
     function update_current_bullet(index){
-        controls.find(".circles .circle").removeClass("current");
-        controls.find(".circles .circle:eq("+index+")").addClass("current");
+        controls.find(".tcc-circles .tcc-circle").removeClass("theChosenOne");
+        controls.find(".tcc-circles .tcc-circle:eq("+index+")").addClass("theChosenOne");
     }
-
-
 
     /*-------------------------------------
 	| Assign behaviors to circles created above
 	-------------------------------------*/
-    var circles = controls.find(".circles .circle");
+    var circles = controls.find(".tcc-circles .tcc-circle");
     circles.on("click", function(){
         var bullInd = circles.index(this);
         update_current_bullet(bullInd);
 
         // which card, and what's its current indexed position?
-        var chosenCard = deck.find(".card[data-item=\""+bullInd+"\"]");
-        var chosenCardInd = deck.find(".card").index(chosenCard);
+        var chosenCard = carousel.find(".tcc-card[data-item=\""+bullInd+"\"]");
+        var chosenCardInd = carousel.find(".tcc-card").index(chosenCard);
 
         if (chosenCardInd > 0)
         {
